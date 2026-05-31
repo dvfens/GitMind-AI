@@ -29,7 +29,10 @@ const GITHUB_HEADERS = {
   Accept: "application/vnd.github+json",
 };
 
-export async function fetchRepositorySummary(owner: string, repo: string) {
+export async function fetchRepositorySummary(
+  owner: string,
+  repo: string,
+): Promise<RepositorySummary> {
   const token = process.env.GITHUB_TOKEN;
   const headers = {
     ...GITHUB_HEADERS,
@@ -81,6 +84,24 @@ export async function fetchRepositorySummary(owner: string, repo: string) {
   }
 
   if (!commitsResponse.ok) {
+    if (commitsResponse.status === 409) {
+      const repository = (await repositoryResponse.json()) as GitHubRepositoryResponse;
+      const languages =
+        (await languagesResponse.json()) as GitHubLanguagesResponse;
+
+      return {
+        name: repository.full_name,
+        description: repository.description,
+        stars: repository.stargazers_count,
+        url: repository.html_url,
+        languages: Object.keys(languages),
+        recentCommits: [],
+        owner: repository.owner.login,
+        repository: repository.name,
+        defaultBranch: repository.default_branch,
+      };
+    }
+
     throw new Error(
       `GitHub commits request failed with status ${commitsResponse.status}.`,
     );

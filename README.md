@@ -24,6 +24,7 @@ Create `.env.local` from `.env.example` and set:
 - `GITHUB_TOKEN`
 - `OPENROUTER_API_KEY`
 - `OPENROUTER_BASE_URL`
+- `OPENROUTER_MODEL`
 - `CORAL_API_KEY`
 
 ## Project structure

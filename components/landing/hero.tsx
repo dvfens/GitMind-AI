@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Settings2, Sparkles } from "lucide-react";
 import { RepoInput } from "@/components/repository/repo-input";
 
 const highlights = [
@@ -48,6 +48,13 @@ export function Hero() {
             >
               Analyze a repository
               <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/models"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 px-5 py-3 font-medium text-slate-200 transition hover:border-white/20 hover:text-white"
+            >
+              <Settings2 className="h-4 w-4" />
+              Configure model
             </Link>
             <span>Built for contributors, maintainers, and curious beginners.</span>
           </div>

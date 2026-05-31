@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowLeft, Bot, Github, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, Github, LayoutDashboard, SlidersHorizontal } from "lucide-react";
 import type { ParsedRepoUrl } from "@/lib/repo-url";
-import { AiPanelPlaceholder } from "@/components/dashboard/ai-panel-placeholder";
+import type { RepositorySummary } from "@/types/repository";
+import { AiAnalysisPanel } from "@/components/dashboard/ai-analysis-panel";
 import { CommitListCard } from "@/components/dashboard/commit-list-card";
 import { RepoOverviewCard } from "@/components/dashboard/repo-overview-card";
 import { StatusCard } from "@/components/dashboard/status-card";
@@ -9,11 +10,15 @@ import { StatusCard } from "@/components/dashboard/status-card";
 type DashboardShellProps = {
   repoUrl?: string;
   parsedRepository: ParsedRepoUrl | null;
+  repositorySummary: RepositorySummary | null;
+  repositoryError: string | null;
 };
 
 export function DashboardShell({
   repoUrl,
   parsedRepository,
+  repositorySummary,
+  repositoryError,
 }: DashboardShellProps) {
   const hasRepo = Boolean(repoUrl && parsedRepository);
 
@@ -42,10 +47,13 @@ export function DashboardShell({
             <ArrowLeft className="h-4 w-4" />
             New repository
           </Link>
-          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-100">
-            <Bot className="h-4 w-4" />
-            AI analysis coming in Phase 3
-          </div>
+          <Link
+            href="/models"
+            className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-400/15"
+          >
+            <SlidersHorizontal className="h-4 w-4" />
+            Configure AI model
+          </Link>
         </div>
       </header>
 
@@ -57,19 +65,33 @@ export function DashboardShell({
         />
       ) : null}
 
+      {hasRepo && repositoryError ? (
+        <StatusCard
+          title="We could not load GitHub data"
+          description={repositoryError}
+          icon={<Github className="h-5 w-5" />}
+          tone="error"
+        />
+      ) : null}
+
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="flex flex-col gap-6">
           <RepoOverviewCard
             parsedRepository={parsedRepository}
             repoUrl={repoUrl}
             active={hasRepo}
+            repositorySummary={repositorySummary}
           />
-          <CommitListCard active={hasRepo} />
+          <CommitListCard
+            active={hasRepo}
+            commits={repositorySummary?.recentCommits ?? []}
+            hasError={Boolean(repositoryError)}
+          />
         </div>
 
-        <AiPanelPlaceholder
-          active={hasRepo}
-          repositoryName={parsedRepository?.repo ?? "repository"}
+        <AiAnalysisPanel
+          repositorySummary={repositorySummary}
+          repositoryError={repositoryError}
         />
       </div>
     </section>
