@@ -12,3 +12,6 @@ dist
 .env.example
 coral/
 *.exe
+*.zip
+*.exe
+coral/
