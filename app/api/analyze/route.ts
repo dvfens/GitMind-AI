@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { DEFAULT_OPENROUTER_MODEL } from "@/lib/model-storage";
 import type { RepositoryAnalysis } from "@/types/analysis";
+import type { CoralRepoInsights } from "@/types/coral";
 import type { RepositorySummary } from "@/types/repository";
 
 type AnalyzeRequestBody = {
   model?: string;
   repository?: RepositorySummary;
+  coralInsights?: CoralRepoInsights | null;
 };
 
 type OpenRouterResponse = {
@@ -30,6 +32,7 @@ export async function POST(request: Request) {
 
   const body = (await request.json()) as AnalyzeRequestBody;
   const repository = body.repository;
+  const coralInsights = body.coralInsights;
   const model = body.model?.trim() || DEFAULT_OPENROUTER_MODEL;
 
   if (!repository) {
@@ -56,7 +59,7 @@ export async function POST(request: Request) {
         },
         {
           role: "user",
-          content: buildAnalysisPrompt(repository),
+          content: buildAnalysisPrompt(repository, coralInsights),
         },
       ],
     }),
@@ -103,13 +106,29 @@ export async function POST(request: Request) {
   }
 }
 
-function buildAnalysisPrompt(repository: RepositorySummary) {
+function buildAnalysisPrompt(
+  repository: RepositorySummary,
+  coralInsights: CoralRepoInsights | null | undefined,
+) {
   const commitLines = repository.recentCommits
     .map(
       (commit) =>
         `- ${commit.message} by ${commit.author} on ${commit.date} (${commit.sha.slice(0, 7)})`,
     )
     .join("\n");
+
+  const coralSection = coralInsights
+    ? `
+Coral contribution signals:
+- Open issues: ${coralInsights.openIssueCount}
+- Open pull requests: ${coralInsights.openPullRequestCount}
+- Top open issues: ${coralInsights.topOpenIssues.map((issue) => issue.title).join(" | ") || "None"}
+- Top open pull requests: ${coralInsights.topOpenPullRequests.map((pull) => pull.title).join(" | ") || "None"}
+`
+    : `
+Coral contribution signals:
+- Not available for this repository.
+`;
 
   return `
 Analyze this GitHub repository and return JSON with exactly these keys:
@@ -131,6 +150,8 @@ Repository:
 
 Recent commits:
 ${commitLines || "- No commits available"}
+
+${coralSection}
 
 Requirements:
 - Explain in simple, direct language.

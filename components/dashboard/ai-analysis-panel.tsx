@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { Bot, BrainCircuit, LoaderCircle, Rocket, Sparkles } from "lucide-react";
+import type { CoralRepoInsights } from "@/types/coral";
 import type { RepositorySummary } from "@/types/repository";
 import type { RepositoryAnalysis } from "@/types/analysis";
 import {
@@ -12,6 +13,7 @@ import {
 
 type AiAnalysisPanelProps = {
   repositorySummary: RepositorySummary | null;
+  coralInsights: CoralRepoInsights | null;
   repositoryError: string | null;
 };
 
@@ -22,6 +24,7 @@ type AnalyzeResponse = {
 
 export function AiAnalysisPanel({
   repositorySummary,
+  coralInsights,
   repositoryError,
 }: AiAnalysisPanelProps) {
   const [model, setModel] = useState(DEFAULT_OPENROUTER_MODEL);
@@ -57,6 +60,7 @@ export function AiAnalysisPanel({
           body: JSON.stringify({
             model,
             repository: repositorySummary,
+            coralInsights,
           }),
         });
 

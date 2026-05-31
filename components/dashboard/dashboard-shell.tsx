@@ -1,9 +1,18 @@
 import Link from "next/link";
 import { ArrowLeft, Github, LayoutDashboard, SlidersHorizontal } from "lucide-react";
 import type { ParsedRepoUrl } from "@/lib/repo-url";
+import type {
+  ContributorReadinessReport,
+  DeveloperInsights,
+  CoralRepoInsights,
+} from "@/types/coral";
 import type { RepositorySummary } from "@/types/repository";
 import { AiAnalysisPanel } from "@/components/dashboard/ai-analysis-panel";
+import { ContributorReadinessCard } from "@/components/dashboard/contributor-readiness-card";
+import { CoralInsightsCard } from "@/components/dashboard/coral-insights-card";
 import { CommitListCard } from "@/components/dashboard/commit-list-card";
+import { DeveloperInsightsPanel } from "@/components/dashboard/developer-insights-panel";
+import { FirstContributionRoadmapCard } from "@/components/dashboard/first-contribution-roadmap-card";
 import { RepoOverviewCard } from "@/components/dashboard/repo-overview-card";
 import { StatusCard } from "@/components/dashboard/status-card";
 
@@ -11,6 +20,9 @@ type DashboardShellProps = {
   repoUrl?: string;
   parsedRepository: ParsedRepoUrl | null;
   repositorySummary: RepositorySummary | null;
+  coralInsights: CoralRepoInsights | null;
+  contributorReadinessReport: ContributorReadinessReport | null;
+  developerInsights: DeveloperInsights | null;
   repositoryError: string | null;
 };
 
@@ -18,6 +30,9 @@ export function DashboardShell({
   repoUrl,
   parsedRepository,
   repositorySummary,
+  coralInsights,
+  contributorReadinessReport,
+  developerInsights,
   repositoryError,
 }: DashboardShellProps) {
   const hasRepo = Boolean(repoUrl && parsedRepository);
@@ -82,6 +97,14 @@ export function DashboardShell({
             active={hasRepo}
             repositorySummary={repositorySummary}
           />
+          <CoralInsightsCard
+            insights={coralInsights}
+            repoFullName={repositorySummary?.name}
+          />
+          <ContributorReadinessCard
+            report={contributorReadinessReport}
+            repoFullName={repositorySummary?.name}
+          />
           <CommitListCard
             active={hasRepo}
             commits={repositorySummary?.recentCommits ?? []}
@@ -89,10 +112,19 @@ export function DashboardShell({
           />
         </div>
 
-        <AiAnalysisPanel
-          repositorySummary={repositorySummary}
-          repositoryError={repositoryError}
-        />
+        <div className="flex flex-col gap-6">
+          <AiAnalysisPanel
+            repositorySummary={repositorySummary}
+            coralInsights={coralInsights}
+            repositoryError={repositoryError}
+          />
+          <FirstContributionRoadmapCard
+            repositorySummary={repositorySummary}
+            coralInsights={coralInsights}
+            repositoryError={repositoryError}
+          />
+          <DeveloperInsightsPanel insights={developerInsights} />
+        </div>
       </div>
     </section>
   );

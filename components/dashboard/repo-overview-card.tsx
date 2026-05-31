@@ -36,7 +36,7 @@ export function RepoOverviewCard({
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
             {repositorySummary
-              ? `Default branch: ${repositorySummary.defaultBranch}. Live repository details are now coming directly from GitHub.`
+              ? `Default branch: ${repositorySummary.defaultBranch}. Live repository details are now coming from Coral SQL.`
               : active
                 ? "We found the repository URL and are ready to show GitHub data once the request succeeds."
               : "Submit a repository URL from the landing page and this area will become the main repository snapshot."}
