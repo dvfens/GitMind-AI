@@ -93,35 +93,35 @@ export function FirstContributionRoadmapCard({
   const disabled = !repositorySummary || Boolean(repositoryError) || isPending;
 
   return (
-    <article className="glass-panel fade-in-delay rounded-[28px] p-6">
+    <article className="panel-light fade-in-delay rounded-[28px] p-6">
       <div className="flex items-center gap-3">
-        <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-3 text-cyan-100">
+        <div className="rounded-2xl border border-cyan-200/60 bg-cyan-100 p-3 text-cyan-700">
           <Map className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm text-sky-200/70">First Contribution Roadmap</p>
-          <h2 className="mt-1 text-2xl font-semibold text-white">
+          <p className="text-sm text-slate-500">First Contribution Roadmap</p>
+          <h2 className="mt-1 text-2xl font-semibold text-slate-900">
             Beginner path builder
           </h2>
         </div>
       </div>
 
-      <p className="mt-4 text-sm leading-7 text-slate-300">
+      <p className="mt-4 text-sm leading-7 text-slate-600">
         This roadmap uses Coral-backed repository context plus OpenRouter to
         generate a practical five-day first contribution plan for beginners.
       </p>
 
-      <div className="mt-4 rounded-3xl border border-white/10 bg-white/5 p-4">
+      <div className="mt-4 rounded-3xl border border-slate-200 bg-white p-4">
         <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
           Selected model
         </p>
-        <p className="mt-2 font-medium text-white">{model}</p>
+        <p className="mt-2 font-medium text-slate-900">{model}</p>
         <div className="mt-4 flex flex-wrap gap-3">
           <button
             type="button"
             disabled={disabled}
             onClick={handleGenerateRoadmap}
-            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-slate-950 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isPending ? (
               <>
@@ -138,7 +138,7 @@ export function FirstContributionRoadmapCard({
 
           <Link
             href="/models"
-            className="rounded-full border border-white/10 px-4 py-3 text-sm text-slate-300 transition hover:border-white/20 hover:text-white"
+            className="rounded-full border border-slate-200/70 px-4 py-3 text-sm text-slate-600 transition hover:border-slate-300 hover:text-slate-900"
           >
             Change model
           </Link>
@@ -146,21 +146,21 @@ export function FirstContributionRoadmapCard({
       </div>
 
       {repositoryError ? (
-        <p className="mt-4 rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+        <p className="mt-4 rounded-2xl border border-rose-400/30 bg-rose-400/10 px-4 py-3 text-sm text-rose-700">
           Fix the GitHub data error first, then generate a roadmap.
         </p>
       ) : null}
 
       {error ? (
-        <p className="mt-4 rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+        <p className="mt-4 rounded-2xl border border-rose-400/30 bg-rose-400/10 px-4 py-3 text-sm text-rose-700">
           {error}
         </p>
       ) : null}
 
       {!roadmap ? (
-        <div className="mt-6 rounded-3xl border border-white/10 bg-white/5 p-4">
-          <p className="font-medium text-white">What you’ll get</p>
-          <p className="mt-3 text-sm leading-6 text-slate-400">
+        <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-4">
+          <p className="font-medium text-slate-900">What you’ll get</p>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
             A day-by-day first contribution plan that helps a beginner
             understand the project, set it up locally, review good starting
             issues, make a first change, and open a pull request.
@@ -168,23 +168,23 @@ export function FirstContributionRoadmapCard({
         </div>
       ) : (
         <div className="mt-6 space-y-4">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+          <div className="rounded-3xl border border-slate-200 bg-white p-4">
             <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
               Roadmap model
             </p>
-            <p className="mt-2 text-sm text-slate-300">{usedModel}</p>
+            <p className="mt-2 text-sm text-slate-600">{usedModel}</p>
           </div>
 
           {roadmap.days.map((entry) => (
             <div
               key={entry.day}
-              className="rounded-3xl border border-white/10 bg-white/5 p-4"
+              className="rounded-3xl border border-slate-200 bg-white p-4"
             >
-              <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">
+              <p className="text-xs uppercase tracking-[0.24em] text-cyan-700">
                 {entry.day}
               </p>
-              <p className="mt-2 font-medium text-white">{entry.title}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
+              <p className="mt-2 font-medium text-slate-900">{entry.title}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
                 {entry.description}
               </p>
             </div>

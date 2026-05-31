@@ -77,7 +77,7 @@ export default async function DashboardPage({
   }
 
   return (
-    <SiteShell compact>
+    <SiteShell compact background="prism">
       <DashboardShell
         repoUrl={repo}
         parsedRepository={parsedRepository}

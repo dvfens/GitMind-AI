@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap");
 
 :root {
   --background: #050816;
@@ -13,6 +14,8 @@
   --accent-strong: #22d3ee;
   --success: #34d399;
   --shadow: 0 24px 80px rgba(2, 8, 23, 0.45);
+  --font-sans: "Manrope", "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
 }
 
 * {
@@ -31,7 +34,16 @@ body {
     radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 28%),
     linear-gradient(180deg, #030712 0%, #050816 44%, #020617 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+.shell-prism {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(196, 170, 255, 0.7), transparent 52%),
+    radial-gradient(circle at 85% 18%, rgba(255, 192, 140, 0.55), transparent 48%),
+    radial-gradient(circle at 20% 90%, rgba(191, 200, 255, 0.5), transparent 45%),
+    linear-gradient(180deg, #f7f5ff 0%, #f6f7fb 48%, #f1f3f8 100%);
+  color: #0f172a;
 }
 
 a {
@@ -54,6 +66,14 @@ input {
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   backdrop-filter: blur(20px);
+}
+
+.panel-light {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(18px);
+  color: #0f172a;
 }
 
 .grid-glow {
